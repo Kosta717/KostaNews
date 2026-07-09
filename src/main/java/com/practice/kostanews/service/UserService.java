@@ -13,13 +13,14 @@ public class UserService {
 
     @Autowired
     UserRepository userRepository;
+
     public List<UserDto> getAllUsers()
     {
         return userRepository.findAll().stream()
-                .map(user_dto -> UserDto.builder()
-                        .name(user_dto.getName())
-                        .email(user_dto.getEmail())
-                        .jobs(user_dto.getJobs())
+                .map(user_entity -> UserDto.builder()
+                        .name(user_entity.getName())
+                        .email(user_entity.getEmail())
+                        .jobs(user_entity.getJobs())
                         .build()
                 ).toList();
     }

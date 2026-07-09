@@ -15,7 +15,7 @@ import org.springframework.data.annotation.Id;
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_user;
+    private Long id;
     private String name;
     private String email;
     private String jobs;

@@ -16,7 +16,7 @@ import org.springframework.data.annotation.Id;
 public class NewsEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_news;
+    private Long id;
     private String title;
     private String description;
     private TagsEnum tags;
