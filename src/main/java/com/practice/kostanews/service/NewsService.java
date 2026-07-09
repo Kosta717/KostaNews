@@ -20,5 +20,6 @@ public class NewsService {
                         .tags(news_entity.getTags())
                         .build()
                 ).toList();
+
     }
 }

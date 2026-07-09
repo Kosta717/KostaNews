@@ -5,6 +5,7 @@ import com.practice.kostanews.entity.UserEntity;
 import com.practice.kostanews.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -25,5 +26,20 @@ public class UserService {
                 ).toList();
     }
 
+    @Transactional(readOnly = true)
+    public UserDto addUser(UserDto userDto){
+        UserEntity userEntity = new UserEntity();
+        userEntity.setName(userDto.getName());
+        userEntity.setEmail(userDto.getEmail());
+        userEntity.setJobs(userDto.getJobs());
+
+        UserEntity result = userRepository.save(userEntity);
+
+        return UserDto.builder()
+                .name(result.getName())
+                .email(result.getEmail())
+                .jobs(result.getJobs())
+                .build();
+    }
 
 }

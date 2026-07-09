@@ -3,9 +3,7 @@ package com.practice.kostanews.controller;
 import com.practice.kostanews.dto.UserDto;
 import com.practice.kostanews.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -15,6 +13,9 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @GetMapping()
-    private List<UserDto> getAllUser(){ return userService.getAllUsers();}
+    @GetMapping
+    private List<UserDto> getAllUser(){ return userService.getAllUsers(); }
+
+    @PostMapping
+    private UserDto addUsers(@RequestBody UserDto userDto) { return userService.addUser(userDto); }
 }
