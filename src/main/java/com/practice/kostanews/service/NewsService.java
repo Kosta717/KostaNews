@@ -1,6 +1,9 @@
 package com.practice.kostanews.service;
 
 import com.practice.kostanews.dto.NewsDto;
+import com.practice.kostanews.dto.UserDto;
+import com.practice.kostanews.entity.NewsEntity;
+import com.practice.kostanews.entity.UserEntity;
 import com.practice.kostanews.repository.NewsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +23,20 @@ public class NewsService {
                         .tags(news_entity.getTags())
                         .build()
                 ).toList();
+    }
 
+    public NewsDto addUser(NewsDto newsDto){
+        NewsEntity newsEntity = new NewsEntity();
+        newsEntity.setTitle(newsDto.getTitle());
+        newsEntity.setDescription(newsDto.getDescription());
+        newsEntity.setTags(newsDto.getTags());
+
+        NewsEntity result = newsRepository.save(newsEntity);
+
+        return NewsDto.builder()
+                .title(result.getTitle())
+                .description(result.getDescription())
+                .tags(result.getTags())
+                .build();
     }
 }
