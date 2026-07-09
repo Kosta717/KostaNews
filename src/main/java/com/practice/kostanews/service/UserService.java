@@ -1,9 +1,11 @@
 package com.practice.kostanews.service;
 
+import com.practice.kostanews.dto.NewsDto;
 import com.practice.kostanews.dto.UserDto;
 import com.practice.kostanews.entity.NewsEntity;
 import com.practice.kostanews.entity.UserEntity;
 import com.practice.kostanews.exception.CustomException;
+import com.practice.kostanews.repository.NewsRepository;
 import com.practice.kostanews.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +15,8 @@ import java.util.List;
 
 @Service
 public class UserService {
-
+    @Autowired
+    NewsRepository newsRepository;
     @Autowired
     UserRepository userRepository;
 
@@ -42,6 +45,21 @@ public class UserService {
                 .email(result.getEmail())
                 .jobs(result.getJobs())
                 .build();
+    }
+
+    @Transactional(readOnly = true)
+    public List<NewsDto> getAllNewsUser(Long userId) {
+
+        List<NewsEntity> userNews = newsRepository.findAllByUserEntity_Id(userId);
+        return userNews.stream()
+                .map(entity -> NewsDto.builder()
+                        .id(entity.getId())
+                        .title(entity.getTitle())
+                        .description(entity.getDescription())
+                        .tags(entity.getTags())
+                        .id(userId)
+                        .build()
+                ).toList();
     }
 
     @Transactional

@@ -19,7 +19,7 @@ public class UserEntity {
     private String email;
     private String jobs;
 
-    @OneToMany(mappedBy = "newsEntity")
-    private List<UserEntity> users;
+    @OneToMany(mappedBy = "author")
+    private List<NewsEntity> news;
 
 }

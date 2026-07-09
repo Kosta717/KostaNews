@@ -17,8 +17,9 @@ public class NewsEntity {
     private String title;
     private String description;
     private TagsEnum tags;
-
     @ManyToOne
-    @JoinColumn(name = "news_id")
-    private NewsEntity newsEntity;
+    @JoinColumn(name = "user_id")
+    private UserEntity author;
+
+    private Long userId;
 }
