@@ -1,10 +1,7 @@
 package com.practice.kostanews.entity;
 
 import com.practice.kostanews.enums.TagsEnum;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Getter
@@ -20,4 +17,8 @@ public class NewsEntity {
     private String title;
     private String description;
     private TagsEnum tags;
+
+    @ManyToOne
+    @JoinColumn(name = "news_id")
+    private NewsEntity newsEntity;
 }

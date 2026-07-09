@@ -1,10 +1,9 @@
 package com.practice.kostanews.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -19,5 +18,8 @@ public class UserEntity {
     private String name;
     private String email;
     private String jobs;
+
+    @OneToMany(mappedBy = "newsEntity")
+    private List<UserEntity> users;
 
 }
