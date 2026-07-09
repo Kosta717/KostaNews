@@ -20,6 +20,4 @@ public class NewsEntity {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity author;
-
-    private Long userId;
 }

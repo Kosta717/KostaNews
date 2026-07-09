@@ -1,11 +1,10 @@
 package com.practice.kostanews.controller;
 
 import com.practice.kostanews.dto.NewsDto;
+import com.practice.kostanews.entity.NewsEntity;
 import com.practice.kostanews.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -16,5 +15,13 @@ public class NewsController {
     NewsService newsService;
 
     @GetMapping
-    private List<NewsDto> getAllNew(){ return newsService.getAllNews();}
+    public List<NewsDto> getAllNew(){ return newsService.getAllNews();}
+
+    @PostMapping
+    public NewsDto addNew(@RequestBody NewsDto newsDto) { return newsService.addNews(newsDto); }
+
+    @DeleteMapping("/{id}")
+    public void deleteNew(@PathVariable Long id) {
+        newsService.deleteNews(id);
+    }
 }

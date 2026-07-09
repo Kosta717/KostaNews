@@ -6,6 +6,7 @@ import com.practice.kostanews.entity.NewsEntity;
 import com.practice.kostanews.entity.UserEntity;
 import com.practice.kostanews.exception.CustomException;
 import com.practice.kostanews.repository.NewsRepository;
+import com.practice.kostanews.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +17,8 @@ import java.util.List;
 public class NewsService {
     @Autowired
     NewsRepository newsRepository;
+    @Autowired
+    UserRepository userRepository;
 
     public List<NewsDto> getAllNews(){
         return newsRepository.findAll().stream()
@@ -27,12 +30,14 @@ public class NewsService {
                 ).toList();
     }
 
-    public NewsDto addUser(NewsDto newsDto){
+    public NewsDto addNews(NewsDto newsDto){
         NewsEntity newsEntity = new NewsEntity();
         newsEntity.setTitle(newsDto.getTitle());
         newsEntity.setDescription(newsDto.getDescription());
         newsEntity.setTags(newsDto.getTags());
-
+        UserEntity user = userRepository.findById(newsDto.getUserId())
+                .orElseThrow(() -> new CustomException("Нету текущего id пользователя"));
+        newsEntity.setAuthor(user);
         NewsEntity result = newsRepository.save(newsEntity);
 
         return NewsDto.builder()
@@ -45,7 +50,7 @@ public class NewsService {
     @Transactional
     public void deleteNews(Long id) {
         NewsEntity entity = newsRepository.findById(id)
-                .orElseThrow(() -> new CustomException("Нет такой задачи!"));
+                .orElseThrow(() -> new CustomException("Нет такой новости!"));
         newsRepository.deleteById(entity.getId());
     }
 }

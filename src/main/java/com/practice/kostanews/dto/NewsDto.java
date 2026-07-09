@@ -13,4 +13,5 @@ public class NewsDto {
     private String title;
     private String description;
     private TagsEnum tags;
+    private Long userId;
 }
