@@ -1,7 +1,6 @@
 package com.practice.kostanews.service;
 
 import com.practice.kostanews.dto.NewsDto;
-import com.practice.kostanews.dto.UserDto;
 import com.practice.kostanews.entity.NewsEntity;
 import com.practice.kostanews.entity.UserEntity;
 import com.practice.kostanews.enums.TagsEnum;
@@ -59,11 +58,16 @@ public class NewsService {
     }
 
     @Transactional
-    public NewsDto updateTags(Long newsId, TagsEnum tags)
+    public NewsDto updateNew(Long newsId, NewsDto newsDto)
     {
         NewsEntity newsEntity = newsRepository.findById(newsId)
                 .orElseThrow(() -> new CustomException("Обновить не получится. Такой новости нет!"));
-        newsEntity.setTags(tags);
+        newsEntity.setTitle(newsDto.getTitle());
+        newsEntity.setDescription(newsDto.getDescription());
+        newsEntity.setTags(newsDto.getTags());
+        UserEntity user = userRepository.findById(newsDto.getUserId())
+                .orElseThrow(() -> new CustomException("Нету текущего id пользователя"));
+        newsEntity.setAuthor(user);
 
         NewsEntity saved = newsRepository.save(newsEntity);
 
