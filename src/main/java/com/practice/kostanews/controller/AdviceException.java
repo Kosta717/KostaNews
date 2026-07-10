@@ -17,5 +17,4 @@ public class AdviceException
                 .status(HttpStatus.NOT_FOUND)
                 .body(new ExceptionResponseDTO(HttpStatus.NOT_FOUND.value(), HttpStatus.NOT_FOUND.getReasonPhrase(),e.getMessage()));
     }
-
 }
