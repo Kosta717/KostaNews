@@ -4,6 +4,7 @@ import com.practice.kostanews.dto.NewsDto;
 import com.practice.kostanews.dto.UserDto;
 import com.practice.kostanews.entity.NewsEntity;
 import com.practice.kostanews.entity.UserEntity;
+import com.practice.kostanews.enums.TagsEnum;
 import com.practice.kostanews.exception.CustomException;
 import com.practice.kostanews.repository.NewsRepository;
 import com.practice.kostanews.repository.UserRepository;
@@ -55,5 +56,23 @@ public class NewsService {
         NewsEntity entity = newsRepository.findById(id)
                 .orElseThrow(() -> new CustomException("Нет такой новости!"));
         newsRepository.deleteById(entity.getId());
+    }
+
+    @Transactional
+    public NewsDto updateTags(Long newsId, TagsEnum tags)
+    {
+        NewsEntity newsEntity = newsRepository.findById(newsId)
+                .orElseThrow(() -> new CustomException("Обновить не получится. Такой новости нет!"));
+        newsEntity.setTags(tags);
+
+        NewsEntity saved = newsRepository.save(newsEntity);
+
+        return NewsDto.builder()
+                .id(saved.getId())
+                .title(saved.getTitle())
+                .description(saved.getDescription())
+                .tags(saved.getTags())
+                .userId(saved.getAuthor().getId())
+                .build();
     }
 }

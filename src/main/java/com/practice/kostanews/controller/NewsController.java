@@ -23,4 +23,8 @@ public class NewsController {
     public void deleteNew(@PathVariable Long id) {
         newsService.deleteNews(id);
     }
+
+    @PatchMapping("/{id}/tag")
+    public NewsDto updateTagNews(@PathVariable Long id, @RequestBody NewsDto newsDto) { return newsService.updateTags(id, newsDto.getTags()); }
+
 }
