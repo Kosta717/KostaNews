@@ -49,7 +49,6 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public List<NewsDto> getAllNewsUser(Long userId) {
-
         List<NewsEntity> userNews = newsRepository.findAllByAuthor_Id(userId);
         return userNews.stream()
                 .map(entity -> NewsDto.builder()
@@ -65,7 +64,7 @@ public class UserService {
     @Transactional
     public void deleteUser(Long id) {
         UserEntity entity = userRepository.findById(id)
-                .orElseThrow(() -> new CustomException("Нет такой задачи!"));
+                .orElseThrow(() -> new CustomException("Нет такого пользователя!"));
         userRepository.deleteById(entity.getId());
     }
 }

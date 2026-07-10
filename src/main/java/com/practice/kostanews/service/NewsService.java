@@ -23,9 +23,11 @@ public class NewsService {
     public List<NewsDto> getAllNews(){
         return newsRepository.findAll().stream()
                 .map(news_entity -> NewsDto.builder()
+                        .id(news_entity.getId())
                         .title(news_entity.getTitle())
                         .description(news_entity.getDescription())
                         .tags(news_entity.getTags())
+                        .userId(news_entity.getAuthor().getId())
                         .build()
                 ).toList();
     }
@@ -44,6 +46,7 @@ public class NewsService {
                 .title(result.getTitle())
                 .description(result.getDescription())
                 .tags(result.getTags())
+                .userId(result.getAuthor().getId())
                 .build();
     }
 

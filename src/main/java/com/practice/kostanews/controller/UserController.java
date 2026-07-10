@@ -1,5 +1,6 @@
 package com.practice.kostanews.controller;
 
+import com.practice.kostanews.dto.NewsDto;
 import com.practice.kostanews.dto.UserDto;
 import com.practice.kostanews.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +16,13 @@ public class UserController {
     UserService userService;
 
     @GetMapping
-    private List<UserDto> getAllUser(){ return userService.getAllUsers(); }
+    public List<UserDto> getAllUser(){ return userService.getAllUsers(); }
+
+    @GetMapping("/{id}/news")
+    public List<NewsDto> getAllUserNews(@PathVariable Long id) { return userService.getAllNewsUser(id);}
 
     @PostMapping
-    private UserDto addUsers(@RequestBody UserDto userDto) { return userService.addUser(userDto); }
+    public UserDto addUsers(@RequestBody UserDto userDto) { return userService.addUser(userDto); }
 
     @ResponseStatus(HttpStatus.CREATED)
     @DeleteMapping("/{id}")

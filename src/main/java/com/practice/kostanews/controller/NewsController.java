@@ -1,7 +1,6 @@
 package com.practice.kostanews.controller;
 
 import com.practice.kostanews.dto.NewsDto;
-import com.practice.kostanews.entity.NewsEntity;
 import com.practice.kostanews.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
