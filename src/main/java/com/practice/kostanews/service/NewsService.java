@@ -3,15 +3,15 @@ package com.practice.kostanews.service;
 import com.practice.kostanews.dto.NewsDto;
 import com.practice.kostanews.entity.NewsEntity;
 import com.practice.kostanews.entity.UserEntity;
-import com.practice.kostanews.enums.TagsEnum;
 import com.practice.kostanews.exception.CustomException;
 import com.practice.kostanews.repository.NewsRepository;
 import com.practice.kostanews.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 public class NewsService {
@@ -20,8 +20,10 @@ public class NewsService {
     @Autowired
     UserRepository userRepository;
 
-    public List<NewsDto> getAllNews(){
-        return newsRepository.findAll().stream()
+    public Page<NewsDto> getAllNews(int page, int size){
+        Pageable pageable = PageRequest.of(page, size);
+        Page<NewsEntity> newsPage = newsRepository.findAll(pageable);
+        return newsPage
                 .map(news_entity -> NewsDto.builder()
                         .id(news_entity.getId())
                         .title(news_entity.getTitle())
@@ -29,7 +31,7 @@ public class NewsService {
                         .tags(news_entity.getTags())
                         .userId(news_entity.getAuthor().getId())
                         .build()
-                ).toList();
+                );
     }
 
     public NewsDto addNews(NewsDto newsDto){
