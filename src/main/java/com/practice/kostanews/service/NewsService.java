@@ -20,6 +20,7 @@ public class NewsService {
     @Autowired
     UserRepository userRepository;
 
+    @Transactional(readOnly = true)
     public Page<NewsDto> getAllNews(int page, int size){
         Pageable pageable = PageRequest.of(page, size);
         Page<NewsEntity> newsPage = newsRepository.findAll(pageable);
