@@ -22,7 +22,7 @@ public class UserEntity {
     @OneToMany(mappedBy = "author")
     private List<NewsEntity> news;
 
-    @OneToMany(mappedBy = "author_rating")
+    @OneToMany(mappedBy = "author")
     private List<RatingEntity> rating;
 
 }

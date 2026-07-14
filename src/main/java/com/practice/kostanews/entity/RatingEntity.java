@@ -16,11 +16,11 @@ public class RatingEntity {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private UserEntity author_rating;
+    private UserEntity author;
 
     @ManyToOne
     @JoinColumn(name = "news_id")
-    private NewsEntity news_rating;
+    private NewsEntity news;
 
     private int rating;
 }

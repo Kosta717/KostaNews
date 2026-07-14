@@ -31,6 +31,6 @@ public class NewsEntity {
     @JoinColumn(name = "user_id")
     private UserEntity author;
 
-    @OneToMany(mappedBy = "news_rating")
+    @OneToMany(mappedBy = "news")
     private List<RatingEntity> rating;
 }

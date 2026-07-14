@@ -1,5 +1,6 @@
 package com.practice.kostanews.service;
 
+import com.practice.kostanews.dto.RatingDto;
 import com.practice.kostanews.entity.NewsEntity;
 import com.practice.kostanews.entity.RatingEntity;
 import com.practice.kostanews.entity.UserEntity;
@@ -21,21 +22,41 @@ public class RatingService {
     NewsRepository newsRepository;
 
     @Transactional
-    public void ratingNews(Long news_id, Long user_id, Integer rating)
-    {
-        if(1 < rating || rating > 5)
-        {
+    public void ratingNews(Long news_id, Long user_id, Integer rating) {
+        if (1 > rating || rating > 5) {
             throw new CustomException("Рейтинг должен быть больше от 1 до 5!");
         }
-        else {
-            UserEntity user = userRepository.findById(user_id)
-                    .orElseThrow(() -> new CustomException("Такого пользователя нету!"));
-            NewsEntity news = newsRepository.findById(news_id)
-                    .orElseThrow(() -> new CustomException("Такой новости нету!"));
+        UserEntity user = userRepository.findById(user_id)
+                .orElseThrow(() -> new CustomException("Такого пользователя нету!"));
+        NewsEntity news = newsRepository.findById(news_id)
+                .orElseThrow(() -> new CustomException("Такой новости нету!"));
 
-            
+        RatingEntity check_rating = ratingRepository.findByAuthorAndNews(user, news);
 
+        if(check_rating!=null)
+        {
+            check_rating.setRating(rating);
+            ratingRepository.save(check_rating);
         }
+        else
+        {
+            RatingEntity newRating = new RatingEntity();
+            newRating.setAuthor(user);
+            newRating.setNews(news);
+            newRating.setRating(rating);
+            ratingRepository.save(newRating);
+        }
+    }
 
+    @Transactional(readOnly = true)
+    public RatingDto getRatingNew(Long id) {
+        RatingEntity ratingEntity = new RatingEntity();
+        return ratingRepository.findById(id).map(
+                ratingEntity1 -> RatingDto.builder()
+                        .newsId(ratingEntity.getId())
+                        .userId(ratingEntity.getId())
+                        .rating(ratingEntity.getRating())
+                        .build()
+        );
     }
 }
