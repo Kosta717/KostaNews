@@ -22,4 +22,7 @@ public class UserEntity {
     @OneToMany(mappedBy = "author")
     private List<NewsEntity> news;
 
+    @OneToMany(mappedBy = "author_rating")
+    private List<RatingEntity> rating;
+
 }

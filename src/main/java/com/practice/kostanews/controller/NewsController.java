@@ -4,9 +4,8 @@ import com.practice.kostanews.dto.NewsDto;
 import com.practice.kostanews.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/news")
@@ -17,8 +16,9 @@ public class NewsController {
     @GetMapping
     public Page<NewsDto> getAllNew(
         @RequestParam(defaultValue = "0") int page,
-        @RequestParam(defaultValue = "2") int size) {
-        return newsService.getAllNews(page,size);
+        @RequestParam(defaultValue = "2") int size
+    ) {
+        return newsService.getAllNews(page, size);
     }
 
     @PostMapping

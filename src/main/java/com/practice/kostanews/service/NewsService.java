@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,12 +23,13 @@ public class NewsService {
 
     @Transactional(readOnly = true)
     public Page<NewsDto> getAllNews(int page, int size){
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt"));
         Page<NewsEntity> newsPage = newsRepository.findAll(pageable);
         return newsPage
                 .map(news_entity -> NewsDto.builder()
                         .id(news_entity.getId())
                         .title(news_entity.getTitle())
+                        .createdAt(news_entity.getCreatedAt())
                         .description(news_entity.getDescription())
                         .tags(news_entity.getTags())
                         .userId(news_entity.getAuthor().getId())
