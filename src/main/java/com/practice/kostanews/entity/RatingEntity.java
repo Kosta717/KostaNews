@@ -22,5 +22,5 @@ public class RatingEntity {
     @JoinColumn(name = "news_id")
     private NewsEntity news_rating;
 
-    private int Rating;
+    private int rating;
 }
