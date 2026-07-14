@@ -14,9 +14,12 @@ public class RatingController {
     @PostMapping
     public void addRating(@RequestBody RatingDto ratingDto){ ratingService.ratingNews(ratingDto.getNewsId(), ratingDto.getUserId(), ratingDto.getRating()); }
 
-    @GetMapping
-    public RatingDto getRatingNews(Long id)
+    @GetMapping("/{id}")
+    public RatingDto getRatingNews(@PathVariable Long id)
     {
         return ratingService.getRatingNew(id);
     }
+
+    @DeleteMapping("/{id}")
+    public void deleteRating(@PathVariable Long id) { ratingService.deleteRating(id);}
 }

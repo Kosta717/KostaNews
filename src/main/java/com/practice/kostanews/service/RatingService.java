@@ -50,14 +50,21 @@ public class RatingService {
 
     @Transactional(readOnly = true)
     public RatingDto getRatingNew(Long id) {
-        RatingEntity ratingEntity = new RatingEntity();
         return ratingRepository.findById(id).map(
                 entity -> RatingDto.builder()
+                        .id(entity.getId())
                         .newsId(entity.getNews().getId())
                         .userId(entity.getAuthor().getId())
                         .rating(entity.getRating())
                         .build()
-        )
-                .orElseThrow(() -> new CustomException("Такой оценки не существует!"));
+        ).orElseThrow(() -> new CustomException("Такой оценки не существует!"));
+    }
+
+    @Transactional
+    public void deleteRating(Long id)
+    {
+        RatingEntity ratingEntity = ratingRepository.findById(id)
+                .orElseThrow(() -> new CustomException("Нету оценки такой"));
+        ratingRepository.deleteById(ratingEntity.getId());
     }
 }

@@ -1,6 +1,5 @@
 package com.practice.kostanews.dto;
 
-import jakarta.persistence.Entity;
 import lombok.*;
 
 @Getter
