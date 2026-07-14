@@ -52,11 +52,12 @@ public class RatingService {
     public RatingDto getRatingNew(Long id) {
         RatingEntity ratingEntity = new RatingEntity();
         return ratingRepository.findById(id).map(
-                ratingEntity1 -> RatingDto.builder()
-                        .newsId(ratingEntity.getId())
-                        .userId(ratingEntity.getId())
-                        .rating(ratingEntity.getRating())
+                entity -> RatingDto.builder()
+                        .newsId(entity.getNews().getId())
+                        .userId(entity.getAuthor().getId())
+                        .rating(entity.getRating())
                         .build()
-        );
+        )
+                .orElseThrow(() -> new CustomException("Такой оценки не существует!"));
     }
 }
