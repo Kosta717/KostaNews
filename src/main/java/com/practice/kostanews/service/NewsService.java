@@ -48,7 +48,9 @@ public class NewsService {
         NewsEntity result = newsRepository.save(newsEntity);
 
         return NewsDto.builder()
+                .id(result.getId())
                 .title(result.getTitle())
+                .createdAt(result.getCreatedAt())
                 .description(result.getDescription())
                 .tags(result.getTags())
                 .userId(result.getAuthor().getId())

@@ -11,5 +11,5 @@ public class RatingDto {
     private Long id;
     private Long userId;
     private Long newsId;
-    private int rating;
+    private Integer rating;
 }

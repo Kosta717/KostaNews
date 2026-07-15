@@ -1,5 +1,6 @@
 package com.practice.kostanews.service;
 
+import com.practice.kostanews.dto.NewsDto;
 import com.practice.kostanews.dto.RatingDto;
 import com.practice.kostanews.entity.NewsEntity;
 import com.practice.kostanews.entity.RatingEntity;
@@ -11,6 +12,8 @@ import com.practice.kostanews.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class RatingService {
@@ -66,5 +69,21 @@ public class RatingService {
         RatingEntity ratingEntity = ratingRepository.findById(id)
                 .orElseThrow(() -> new CustomException("Нету оценки такой"));
         ratingRepository.deleteById(ratingEntity.getId());
+    }
+
+    @Transactional(readOnly = true)
+    public List<NewsDto> filterByRating(Long rating)
+    {
+        List<RatingEntity> newsByRating = ratingRepository.findByRating(rating);
+        return newsByRating.stream()
+                .map(entity -> NewsDto.builder()
+                        .id(entity.getNews().getId())
+                        .title(entity.getNews().getTitle())
+                        .createdAt(entity.getNews().getCreatedAt())
+                        .description(entity.getNews().getDescription())
+                        .tags(entity.getNews().getTags())
+                        .userId(entity.getAuthor().getId())
+                        .build()
+                ).toList();
     }
 }
