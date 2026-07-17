@@ -3,16 +3,16 @@ package com.practice.kostanews.controller;
 import com.practice.kostanews.dto.NewsDto;
 import com.practice.kostanews.dto.RatingDto;
 import com.practice.kostanews.service.RatingService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/rate")
+@RequiredArgsConstructor
 public class RatingController {
-    @Autowired
-    RatingService ratingService;
+    private final RatingService ratingService;
 
     @PostMapping
     public void addRating(@RequestBody RatingDto ratingDto){ ratingService.ratingNews(ratingDto.getNewsId(), ratingDto.getUserId(), ratingDto.getRating()); }

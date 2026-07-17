@@ -2,16 +2,16 @@ package com.practice.kostanews.controller;
 
 import com.practice.kostanews.dto.NewsDto;
 import com.practice.kostanews.service.NewsService;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/news")
+@RequiredArgsConstructor
 public class NewsController {
-    @Autowired
-    NewsService newsService;
+    private final NewsService newsService;
 
     @GetMapping
     public Page<NewsDto> getAllNew(
@@ -22,7 +22,7 @@ public class NewsController {
     }
 
     @PostMapping
-    public NewsDto addNew(@RequestBody NewsDto newsDto) { return newsService.addNews(newsDto); }
+    public NewsDto addNew(@Valid @RequestBody NewsDto newsDto) { return newsService.addNews(newsDto); }
 
     @DeleteMapping("/{id}")
     public void deleteNew(@PathVariable Long id) {

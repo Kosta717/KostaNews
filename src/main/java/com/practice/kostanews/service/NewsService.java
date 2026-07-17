@@ -6,7 +6,7 @@ import com.practice.kostanews.entity.UserEntity;
 import com.practice.kostanews.exception.CustomException;
 import com.practice.kostanews.repository.NewsRepository;
 import com.practice.kostanews.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -15,11 +15,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@RequiredArgsConstructor
 public class NewsService {
-    @Autowired
-    NewsRepository newsRepository;
-    @Autowired
-    UserRepository userRepository;
+
+    private final NewsRepository newsRepository;
+    private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
     public Page<NewsDto> getAllNews(int page, int size){

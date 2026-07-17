@@ -9,25 +9,23 @@ import com.practice.kostanews.exception.CustomException;
 import com.practice.kostanews.repository.NewsRepository;
 import com.practice.kostanews.repository.RatingRepository;
 import com.practice.kostanews.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class RatingService {
-    @Autowired
-    RatingRepository ratingRepository;
-    @Autowired
-    UserRepository userRepository;
-    @Autowired
-    NewsRepository newsRepository;
+    private final RatingRepository ratingRepository;
+    private final UserRepository userRepository;
+    private final NewsRepository newsRepository;
 
     @Transactional
-    public void ratingNews(Long news_id, Long user_id, Integer rating) {
+    public RatingEntity ratingNews(Long news_id, Long user_id, Integer rating) {
         if (1 > rating || rating > 5) {
-            throw new CustomException("Рейтинг должен быть больше от 1 до 5!");
+            throw new CustomException("Рейтинг должен быть от 1 до 5!");
         }
         UserEntity user = userRepository.findById(user_id)
                 .orElseThrow(() -> new CustomException("Такого пользователя нету!"));
@@ -39,7 +37,7 @@ public class RatingService {
         if(check_rating!=null)
         {
             check_rating.setRating(rating);
-            ratingRepository.save(check_rating);
+            return ratingRepository.save(check_rating);
         }
         else
         {
@@ -47,7 +45,7 @@ public class RatingService {
             newRating.setAuthor(user);
             newRating.setNews(news);
             newRating.setRating(rating);
-            ratingRepository.save(newRating);
+            return ratingRepository.save(newRating);
         }
     }
 
@@ -74,6 +72,9 @@ public class RatingService {
     @Transactional(readOnly = true)
     public List<NewsDto> filterByRating(Long rating)
     {
+        if (1 > rating || rating > 5) {
+            throw new CustomException("Рейтинг должен быть от 1 до 5!");
+        }
         List<RatingEntity> newsByRating = ratingRepository.findByRating(rating);
         return newsByRating.stream()
                 .map(entity -> NewsDto.builder()

@@ -19,12 +19,16 @@ public class NewsEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String title;
+
     @CreationTimestamp
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
+
     private String description;
-    @NonNull
+
+    @Column(nullable = false)
     private TagsEnum tags;
 
     @ManyToOne

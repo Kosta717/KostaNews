@@ -7,18 +7,17 @@ import com.practice.kostanews.entity.UserEntity;
 import com.practice.kostanews.exception.CustomException;
 import com.practice.kostanews.repository.NewsRepository;
 import com.practice.kostanews.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
-    @Autowired
-    NewsRepository newsRepository;
-    @Autowired
-    UserRepository userRepository;
+    private final NewsRepository newsRepository;
+    private final UserRepository userRepository;
 
     public List<UserDto> getAllUsers()
     {
