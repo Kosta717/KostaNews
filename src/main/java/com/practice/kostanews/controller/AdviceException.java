@@ -14,13 +14,13 @@ import java.util.Arrays;
 @RestControllerAdvice
 public class AdviceException
 {
-    @ExceptionHandler(CustomException.class)
-    public ResponseEntity<ExceptionResponseDTO> customException(CustomException e)
-    {
-        return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .body(new ExceptionResponseDTO(HttpStatus.NOT_FOUND.value(), HttpStatus.NOT_FOUND.getReasonPhrase(),e.getMessage()));
-    }
+//    @ExceptionHandler(CustomException.class)
+//    public ResponseEntity<ExceptionResponseDTO> customException(CustomException e)
+//    {
+//        return ResponseEntity
+//                .status(HttpStatus.NOT_FOUND)
+//                .body(new ExceptionResponseDTO(HttpStatus.NOT_FOUND.value(), HttpStatus.NOT_FOUND.getReasonPhrase(),e.getMessage()));
+//    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ExceptionResponseDTO> customException(MethodArgumentNotValidException e)
@@ -44,6 +44,16 @@ public class AdviceException
         );
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseDTO);
     }
-    
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ExceptionResponseDTO> exceptionResponseDTO(Exception e)
+    {
+        ExceptionResponseDTO responseDTO = new ExceptionResponseDTO(
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(),
+                e.getMessage()
+        );
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseDTO);
+    }
 
 }
